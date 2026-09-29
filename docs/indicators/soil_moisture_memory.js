@@ -102,7 +102,7 @@ export default {
         yaxis: { title: { text: "Autocorrelation" } },
         annotations: [
           { x: 0, xref: "paper", y: 1 / Math.E, yref: "y", xanchor: "left", yanchor: "bottom", text: "1/e", showarrow: false, font: { size: 11, color: colors.warn } },
-          ...(Number.isFinite(result) ? [{ x: result, xref: "x", y: 1, yref: "paper", yanchor: "bottom", text: `Memory ≈ ${result.toFixed(0)} days`, showarrow: false, font: { size: 12, color: colors.text } }] : []),
+          ...(Number.isFinite(result) ? [{ x: result, xref: "x", y: 0.97, yref: "paper", xanchor: "left", yanchor: "top", xshift: 6, text: `Memory ≈ ${result.toFixed(1)} days`, showarrow: false, font: { size: 12, color: colors.text }, bgcolor: "rgba(22,26,33,0.85)", borderpad: 3 }] : []),
         ],
       },
     };
