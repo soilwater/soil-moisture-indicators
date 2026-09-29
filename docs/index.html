@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Soil Moisture Indicators</title>
+    <meta name="description" content="An interactive, open-source library of daily soil moisture indicators (drought indices, plant-available water, dynamics, and trends) with equations and Python code, running entirely in your browser." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">◍</span>
+        <span>Soil Moisture Indicators</span>
+      </div>
+      <nav class="nav">
+        <span class="tagline">Runs entirely in your browser · no server, no install</span>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <section class="control">
+          <label for="dataset">Dataset</label>
+          <select id="dataset"></select>
+        </section>
+
+        <section class="control">
+          <label for="upload">Or upload your own CSV</label>
+          <input type="file" id="upload" accept=".csv" />
+          <p class="muted small">Needs a <code>timestamp</code> column plus
+            <code>vwc</code> (and <code>precip</code> for a few indicators).
+            Sub-daily data are aggregated to daily means (VWC) and totals (precipitation).</p>
+        </section>
+
+        <section class="control">
+          <label for="indicator">Indicator</label>
+          <select id="indicator"></select>
+        </section>
+
+        <section class="control">
+          <h4>Parameters</h4>
+          <div id="params"></div>
+        </section>
+
+        <section id="info" class="info"></section>
+      </aside>
+
+      <section class="content">
+        <div id="warning" class="notice" hidden></div>
+
+        <div id="charts" class="charts" hidden>
+          <div class="card">
+            <div class="card-head">Input series <span class="tag" id="source"></span></div>
+            <div id="chart-input" class="chart"></div>
+          </div>
+          <div class="card">
+            <div class="card-head">Indicator result</div>
+            <div id="chart-result" class="chart"></div>
+            <div id="result-foot" class="result-foot" hidden>
+              <div id="result-note" class="result-note"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head">Method</div>
+            <div class="method">
+              <div id="method-eqs" class="equations"></div>
+              <div class="where">
+                <div class="where-label">where</div>
+                <dl id="method-vars" class="vars"></dl>
+              </div>
+              <div id="method-ref" class="method-ref" hidden></div>
+              <details id="method-code" class="code-block" hidden>
+                <summary>Python implementation</summary>
+                <div class="code-actions">
+                  <button id="copy-code" class="ghost-btn" type="button">Copy</button>
+                  <a id="download-code" class="ghost-btn" href="#">Download .py</a>
+                </div>
+                <pre><code id="python-code" class="language-python"></code></pre>
+              </details>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Open-source daily soil moisture indicators · equations and Python code under each chart.</span>
+    </footer>
+
+    <script type="module" src="assets/js/app.js"></script>
+  </body>
+</html>
