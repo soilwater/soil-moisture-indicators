@@ -16,7 +16,8 @@ Every function takes the **primary series first**, followed by any other series
 and then the parameters:
 
 - `vwc`: daily mean volumetric water content (m³/m³) as a `pandas.Series` with
-  a `DatetimeIndex`.
+  a `DatetimeIndex`. For profile storage `S` (mm) over a depth `D` (mm), pass
+  `S / D`, the depth-averaged water content.
 - `precip` (where needed): precipitation (mm) as a `pandas.Series` with a
   `DatetimeIndex`. Summed to daily totals; days without data count as 0 mm.
 

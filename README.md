@@ -35,6 +35,14 @@ optionally `precip` (precipitation, mm). All indicators use daily values.
 Sub-daily records are aggregated on load: VWC to the daily mean, precipitation
 to the daily total.
 
+**Profile storage.** If you combine several sensors into a profile water
+storage S (mm), divide it by the profile depth D (mm) before uploading. S/D is
+the depth-weighted mean water content (m³/m³), so every indicator, parameter,
+and unit applies unchanged. Results then describe the whole profile. If you
+enter field capacity or wilting point (FAW, SWDI), use profile-averaged values. Deeper
+profiles respond more slowly than a single shallow sensor (longer memory and
+dry-down times, smaller wetting rises), so compare sites of similar depth.
+
 ## Repository layout
 
 ```

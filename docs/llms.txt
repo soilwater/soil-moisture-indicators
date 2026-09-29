@@ -34,6 +34,8 @@ All indicators operate on **daily** data. The dashboard aggregates any upload
 to a continuous daily series: VWC as the daily mean (days without readings are
 missing) and precipitation as the daily total (days without readings count as
 0 mm). CSV columns: `timestamp`, `vwc` (m³/m³), optional `precip` (mm).
+Profile water storage S (mm) should be divided by the profile depth D (mm)
+before use: S/D is the depth-averaged VWC, so all indicators apply unchanged.
 
 ## The indicator module contract
 
