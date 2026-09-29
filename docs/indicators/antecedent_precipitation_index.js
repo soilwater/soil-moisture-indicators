@@ -42,20 +42,16 @@ export default {
     });
   },
   plot(result, ctx) {
-    const { colors, times, primary, params } = ctx;
+    const { colors, times } = ctx;
     return {
       traces: [
         {
-          x: times, y: primary, type: "bar", marker: { color: "#7dd3fc" }, name: "Precip (mm)",
-          hovertemplate: "%{y:.1f} mm<extra>Precip</extra>",
-        },
-        {
           x: times, y: result, type: "scattergl", mode: "lines",
-          line: { color: "#1e3a8a", width: 1.5 }, name: `API (k=${params.k})`,
-          hovertemplate: "%{y:.1f}<extra>API</extra>",
+          line: { color: colors.accent, width: 1.5 }, name: "API",
+          hovertemplate: "%{y:.1f} mm<extra>API</extra>",
         },
       ],
-      layout: { showlegend: true, yaxis: { title: { text: "mm" } }, bargap: 0 },
+      layout: { showlegend: false, yaxis: { title: { text: "API (mm)" } } },
     };
   },
 };

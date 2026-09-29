@@ -243,7 +243,7 @@ function render() {
   };
 
   Promise.all([
-    plot.renderPrimary("chart-input", ctx),
+    plot.renderInput("chart-input", data),
     plot.renderResult("chart-result", ind, result, ctx),
   ]).then(() => plot.linkXAxes("chart-input", "chart-result"));
 

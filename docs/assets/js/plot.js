@@ -105,21 +105,48 @@ export function linkXAxes(idA, idB) {
   b.on("plotly_relayout", linker(a));
 }
 
-/** Plot the primary input series over time. */
-export function renderPrimary(divId, ctx) {
+/**
+ * Reference chart of the input data, independent of the selected indicator:
+ * VWC as a line on the left axis and, when available, daily precipitation as
+ * bars hanging from the top on an inverted right axis (hyetograph), so the
+ * bars stay clear of the VWC line.
+ */
+export function renderInput(divId, data) {
   const colors = getColors();
-  const traces = [
-    {
-      x: ctx.times,
-      y: ctx.primary,
-      type: "scattergl",
-      mode: "lines",
-      line: { color: colors.input, width: 1.2 },
-      name: ctx.primaryName,
-      hovertemplate: `%{y:.4g}<extra>${ctx.primaryName}</extra>`,
-    },
-  ];
-  return react(divId, traces, { yaxis: { title: { text: ctx.primaryLabel || ctx.primaryName } } });
+  const hasVwc = data.columns.has("vwc");
+  const hasPrecip = data.columns.has("precip");
+  const traces = [];
+  const layout = { showlegend: false }; // both axes are titled, so no legend needed
+
+  if (hasVwc) {
+    traces.push({
+      x: data.timestamp, y: data.vwc, type: "scattergl", mode: "lines",
+      line: { color: colors.input, width: 1.2 }, name: "VWC",
+      hovertemplate: "%{y:.3f} m³/m³<extra>VWC</extra>",
+    });
+    layout.yaxis = { title: { text: "VWC (m³/m³)" } };
+  }
+  if (hasPrecip) {
+    const maxP = Math.max(0, ...data.precip.filter(Number.isFinite));
+    traces.push({
+      x: data.timestamp, y: data.precip, type: "bar",
+      yaxis: hasVwc ? "y2" : "y",
+      marker: { color: "rgba(56,189,248,0.7)" }, name: "Precipitation",
+      hovertemplate: "%{y:.1f} mm<extra>Precip</extra>",
+    });
+    const precipAxis = {
+      title: { text: "Precipitation (mm)", font: { size: 12 } },
+      range: [maxP > 0 ? maxP * 2.5 : 1, 0], // inverted; bars use the top ~40%
+      showgrid: false, zeroline: false, color: colors.muted,
+    };
+    if (hasVwc) {
+      layout.yaxis2 = { ...precipAxis, overlaying: "y", side: "right", automargin: true };
+    } else {
+      layout.yaxis = precipAxis;
+    }
+    layout.bargap = 0;
+  }
+  return react(divId, traces, layout);
 }
 
 /** Render an indicator result (custom plot if provided, else default). */
