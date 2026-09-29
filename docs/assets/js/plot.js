@@ -70,6 +70,15 @@ export function react(divId, traces, layoutPartial) {
   // deep-merge axis overrides so callers can tweak just a title
   layout.xaxis = { ...baseLayout(colors).xaxis, ...(layoutPartial.xaxis || {}) };
   layout.yaxis = { ...baseLayout(colors).yaxis, ...(layoutPartial.yaxis || {}) };
+  // Every axis title (x, y, y2, ...) gets the same size and color.
+  const titleFont = { size: 12, color: colors.text };
+  for (const key of Object.keys(layout)) {
+    const axis = layout[key];
+    if (/^[xy]axis\d*$/.test(key) && axis && axis.title) {
+      const t = typeof axis.title === "string" ? { text: axis.title } : axis.title;
+      layout[key] = { ...axis, title: { ...t, font: titleFont } };
+    }
+  }
   return window.Plotly.react(divId, traces, layout, CONFIG);
 }
 
@@ -135,9 +144,9 @@ export function renderInput(divId, data) {
       hovertemplate: "%{y:.1f} mm<extra>Precip</extra>",
     });
     const precipAxis = {
-      title: { text: "Precipitation (mm)", font: { size: 12 } },
+      title: { text: "Precipitation (mm)" },
       range: [maxP > 0 ? maxP * 2.5 : 1, 0], // inverted; bars use the top ~40%
-      showgrid: false, zeroline: false, color: colors.muted,
+      showgrid: false, zeroline: false,
     };
     if (hasVwc) {
       layout.yaxis2 = { ...precipAxis, overlaying: "y", side: "right", automargin: true };
