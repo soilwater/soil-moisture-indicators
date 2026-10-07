@@ -9,12 +9,9 @@
 import antecedentPrecipitationIndex from "../../indicators/antecedent_precipitation_index.js";
 import droughtSeverity from "../../indicators/drought_severity.js";
 import dryDownTimescale from "../../indicators/dry_down_timescale.js";
-import drySpellDuration from "../../indicators/dry_spell_duration.js";
 import fieldCapacity from "../../indicators/field_capacity.js";
 import flashDroughtOnset from "../../indicators/flash_drought_onset.js";
 import fractionAvailableWater from "../../indicators/fraction_available_water.js";
-import movingAverage from "../../indicators/moving_average.js";
-import rateOfChange from "../../indicators/rate_of_change.js";
 import relativeSaturation from "../../indicators/relative_saturation.js";
 import seasonalMannKendall from "../../indicators/seasonal_mann_kendall.js";
 import soilMoistureAnomaly from "../../indicators/soil_moisture_anomaly.js";
@@ -27,18 +24,14 @@ import standardizedSoilMoistureIndex from "../../indicators/standardized_soil_mo
 import usdmDroughtCategory from "../../indicators/usdm_drought_category.js";
 import wettingEvents from "../../indicators/wetting_events.js";
 import wiltingPoint from "../../indicators/wilting_point.js";
-import zScore from "../../indicators/z_score.js";
 
 export const INDICATORS = [
   antecedentPrecipitationIndex,
   droughtSeverity,
   dryDownTimescale,
-  drySpellDuration,
   fieldCapacity,
   flashDroughtOnset,
   fractionAvailableWater,
-  movingAverage,
-  rateOfChange,
   relativeSaturation,
   seasonalMannKendall,
   soilMoistureAnomaly,
@@ -51,7 +44,6 @@ export const INDICATORS = [
   usdmDroughtCategory,
   wettingEvents,
   wiltingPoint,
-  zScore,
 ];
 
 /** Human-friendly labels for the data columns an indicator may consume. */

@@ -15,9 +15,9 @@ implementation.
 
 | Group | Indicators |
 |---|---|
-| Drought and anomalies | Soil Moisture Anomaly · Soil Moisture Percentile (SMP) · Standardized Soil Moisture Index (SSI) · Drought Category (USDM percentile scale) · Soil Moisture Deficit Index (SMDI) · Flash Drought Onset (SMPD) · Drought Severity (run theory) · Dry-Spell Duration · Z-Score |
+| Drought and anomalies | Soil Moisture Anomaly · Soil Moisture Percentile (SMP) · Standardized Soil Moisture Index (SSI) · Drought Category (USDM percentile scale) · Soil Moisture Deficit Index (SMDI) · Flash Drought Onset (SMPD) · Drought Severity (run theory) |
 | Plant-available water | Fraction of Available Water (FAW) · Soil Water Deficit Index (SWDI) · Field Capacity (drained upper limit) · Wilting Point (field lower limit) · Relative Saturation |
-| Dynamics | Dry-Down Timescale (τ) · Wetting Events · Rate of Change · Soil Moisture Memory · Soil Water Index (SWI) · Moving Average · Antecedent Precipitation Index (API) |
+| Dynamics | Dry-Down Timescale (τ) · Wetting Events · Soil Moisture Memory · Soil Water Index (SWI) · Antecedent Precipitation Index (API) |
 | Trends | Seasonal Mann-Kendall Trend + Sen's Slope |
 
 ## Python

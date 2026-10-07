@@ -41,16 +41,16 @@ before use: S/D is the depth-averaged VWC, so all indicators apply unchanged.
 
 ```js
 export default {
-  id: "z_score",                // matches indicators/<id>.js and python/<id>.py
-  name: "Z-Score",
+  id: "relative_saturation",    // matches indicators/<id>.js and python/<id>.py
+  name: "Relative Saturation (%)",
   type: "timeseries",           // "timeseries" | "scalar" | "categorical"
   primary: "vwc",               // primary input series ("vwc" or "precip")
   requires: ["vwc"],            // columns needed
   minDays: "any",               // "any" | minimum record length in days
   description: "…",             // what it computes
   context: "…",                 // when/why to use it, for non-experts
-  equations: ["z_t = …"],       // LaTeX, one equation per entry/line
-  variables: [["z_t", "z-score on day t (standard deviations)"], …],
+  equations: ["S_t = …"],       // LaTeX, one equation per entry/line
+  variables: [["S_t", "relative saturation on day t (%)"], …],
   reference: "Author (Year)…",  // "N/A" if none; " ; " separates several
   args: [                       // everything AFTER the primary series, in order
     // { kind: "series", column: "timestamp" },
@@ -69,16 +69,13 @@ Python functions follow the same order: primary series first (a daily
 
 - Soil Moisture Anomaly (`soil_moisture_anomaly`): departure from the seasonal (day-of-year ±w) median.
 - Antecedent Precipitation Index (`antecedent_precipitation_index`): daily rainfall total with exponential decay k (uses precip).
-- Dry-Spell Duration (`dry_spell_duration`): running number of days below the record median.
 - Drought Severity (`drought_severity`): run-theory deficit below the median, in m³/m³·day, for the most severe run.
 - Dry-Down Timescale τ (`dry_down_timescale`): median e-folding time of fitted exponential dry-downs; rain ≤ a daily tolerance keeps a dry-down going (uses precip).
 - Field Capacity (`field_capacity`): median VWC a drainage time after major wetting peaks (drained upper limit).
 - Flash Drought Onset (`flash_drought_onset`): SMPD method on seasonal pentad percentiles (40th → below 20th within 4 pentads).
 - Seasonal Mann-Kendall + Sen's slope (`seasonal_mann_kendall`): trend test on monthly means by calendar month, slope in m³/m³ per year.
-- Moving Average (`moving_average`): trailing calendar-time mean.
 - Relative Saturation (`relative_saturation`): VWC as % of porosity (or of the record maximum).
 - Wetting Events (`wetting_events`): rises of at least Δθmin with at least Pmin of rain over w days (uses precip).
-- Rate of Change (`rate_of_change`): dθ/dt per day.
 - Fraction of Available Water (`fraction_available_water`): (θ − θWP)/(θFC − θWP); also called REW; FAO-56 stress below 1 − p.
 - Soil Moisture Deficit Index (`soil_moisture_deficit_index`): weekly SMDI (Narasimhan & Srinivasan 2005), −4 to +4.
 - Soil Moisture Memory (`soil_moisture_memory`): 1/e lag of the deseasonalized anomaly autocorrelation.
@@ -88,4 +85,3 @@ Python functions follow the same order: primary series first (a daily
 - Standardized Soil Moisture Index (`standardized_soil_moisture_index`): Φ⁻¹ of the seasonal Gringorten probability.
 - Drought Category, USDM scale (`usdm_drought_category`): D0–D4 from seasonal percentiles (30/20/10/5/2).
 - Wilting Point (`wilting_point`): robust minimum of the record (field lower limit).
-- Z-Score (`z_score`): standardized against the whole-record mean and sample standard deviation.
