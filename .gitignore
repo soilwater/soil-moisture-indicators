@@ -26,6 +26,7 @@ node_modules/
 # Private work, not part of the public app
 manuscript/
 figures/
+uscrn_stations/
 
 # Claude Code local settings
 .claude/
