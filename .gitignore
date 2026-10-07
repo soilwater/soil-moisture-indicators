@@ -22,3 +22,10 @@ node_modules/
 # Local scratch
 *.log
 .env
+
+# Private work, not part of the public app
+manuscript/
+figures/
+
+# Claude Code local settings
+.claude/
