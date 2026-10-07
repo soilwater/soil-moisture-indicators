@@ -36,7 +36,8 @@ def soil_moisture_memory(vwc: pd.Series, max_lag: int = 60) -> float:
     Returns
     -------
     float
-        Memory tau* (days), or NaN if the record is too short.
+        Memory tau* (days), or NaN if the record is too short or the
+        autocorrelation stays above 1/e up to max_lag.
     """
     daily = _fill_short_gaps(vwc.resample("D").mean())
     doy = daily.index.dayofyear.to_numpy()

@@ -2,7 +2,7 @@
 
 One self-contained function per file. Each is the Python counterpart of the
 indicator shown on the dashboard and reproduces the dashboard result (checked
-to floating-point precision on the bundled sample data).
+to floating-point precision on the three bundled USCRN stations).
 
 ## Requirements
 

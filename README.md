@@ -6,7 +6,7 @@ indices, plant-available water, soil-water dynamics, and long-term trends.
 **Live site:** <https://soilwater.github.io/soil-moisture-indicators/>
 
 The site is an interactive dashboard that runs entirely in the browser. Pick
-the sample dataset or upload your own CSV, choose an indicator, and adjust its
+one of the bundled stations or upload your own CSV, choose an indicator, and adjust its
 parameters. Below each chart, a Method section lists the equations one per
 line, defines every variable, cites the reference, and shows the Python
 implementation.
@@ -43,6 +43,29 @@ enter field capacity or wilting point (FAW, SWDI), use profile-averaged values. 
 profiles respond more slowly than a single shallow sensor (longer memory and
 dry-down times, smaller wetting rises), so compare sites of similar depth.
 
+## Example data
+
+Three U.S. Climate Reference Network (USCRN) stations are bundled in
+[`docs/datasets/`](docs/datasets/), each from 2010-02-01 to 2020-06-30 with
+no missing days:
+
+| Station | Setting | Droughts in the record |
+|---|---|---|
+| Stillwater 5 WNW, OK | Subhumid, Southern Great Plains | 2011 Southern Plains, 2012 flash drought |
+| Batesville 8 WNW, AR | Humid, Ozarks | 2010, 2012 |
+| Gadsden 19 N, AL | Humid, Southeast | 2012, 2016 Southeast flash drought |
+
+VWC is the 0–50 cm profile storage (trapezoidal rule over the 5, 10, 20 and
+50 cm sensors) divided by 500 mm. Precipitation is the station daily total.
+Frozen days (any 5–50 cm soil temperature below 1 °C) and missing days were
+filled by shape-preserving cubic (PCHIP) interpolation. These are under 2% of
+days, at most 8 in a row. The few missing precipitation days (13 or fewer per
+station) were set to 0 mm, unless storage rose by more than 2 mm across the
+gap, in which case that rise was assigned as rain. Sensors are Stevens Hydra
+Probe II throughout, except one of three 10 cm probes at Gadsden, which was
+replaced by an Acclima TDR-315 on 2019-02-05. Source:
+NCEI USCRN daily01 product (https://www.ncei.noaa.gov/pub/data/uscrn/products/daily01/).
+
 ## Repository layout
 
 ```
@@ -52,7 +75,7 @@ docs/                     GitHub Pages site (served from /docs)
   indicators/             Dashboard (JavaScript) implementation, one file per indicator
   python/                 Published Python implementation, one file per indicator
   assets/css, assets/js   Styles, dashboard controller, plotting, shared math
-  datasets/               Sample data
+  datasets/               Example station data (USCRN)
 ```
 
 ## Run locally

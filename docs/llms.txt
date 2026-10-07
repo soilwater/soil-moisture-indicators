@@ -12,7 +12,7 @@ Source: https://github.com/soilwater/soil-moisture-indicators (the site lives in
 
 ## How the site is organized
 
-- `index.html` — the single-page dashboard. Pick the sample dataset or upload a
+- `index.html` — the single-page dashboard. Pick a bundled station or upload a
   CSV, pick an indicator, adjust parameters, and see charts. Below the result
   chart, a Method card shows each equation on its own line, a definition of
   every variable, the reference, and the Python code (collapsible, with copy
@@ -26,7 +26,9 @@ Source: https://github.com/soilwater/soil-moisture-indicators (the site lives in
   Seasonal Kendall).
 - `assets/js/app.js` — dashboard controller; `plot.js` — Plotly rendering;
   `csv.js` — CSV parsing and daily aggregation.
-- `datasets/sample_daily_data.csv` — bundled sample data.
+- `datasets/<station>.csv` — three bundled USCRN stations (Stillwater OK,
+  Batesville AR, Gadsden AL), 2010-02-01 to 2020-06-30, columns
+  `timestamp,vwc,precip`. VWC is the 0–50 cm profile storage divided by 500 mm.
 
 ## Data and time step
 

@@ -60,11 +60,15 @@ export default {
     "Entin, J. K., Robock, A., Vinnikov, K. Y., Hollinger, S. E., Liu, S., & Namkhai, A. (2000). Temporal and spatial scales of observed soil moisture variations in the extratropics. J. Geophys. Res., 105(D9), 11865-11877. https://doi.org/10.1029/2000JD900051",
   args: [
     { kind: "series", column: "timestamp" },
-    { kind: "param", name: "maxLagDays", label: "Max lag (days)", type: "int", default: 60, min: 10, max: 180, step: 5 },
+    { kind: "param", name: "maxLagDays", label: "Max lag (days)", type: "int", default: 60, min: 10, max: 365, step: 5 },
   ],
-  caption(result) {
-    return Number.isFinite(result)
-      ? `<strong>Memory ≈ ${result.toFixed(1)} days</strong>: how long a wet or dry anomaly typically persists (autocorrelation decays to 1/e).`
+  caption(result, ctx) {
+    if (Number.isFinite(result)) {
+      return `<strong>Memory ≈ ${result.toFixed(1)} days</strong>: how long a wet or dry anomaly typically persists (autocorrelation decays to 1/e).`;
+    }
+    const { acf } = memoryAcf(ctx.times, ctx.primary, ctx.params.maxLagDays);
+    return acf.length
+      ? `<strong>Memory > ${ctx.params.maxLagDays} days</strong>: the autocorrelation stays above 1/e at every lag examined. Increase the max lag.`
       : "Not enough data — memory needs about two years to separate season from anomaly.";
   },
   compute(vwc, timestamp, maxLagDays) {

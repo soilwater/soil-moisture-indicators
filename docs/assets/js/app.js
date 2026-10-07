@@ -13,7 +13,9 @@ import * as plot from "./plot.js";
 import { spanDays, lengthSufficient } from "./utils.js";
 
 const DATASETS = {
-  "Sample data — Daily": "datasets/sample_daily_data.csv",
+  "Stillwater, OK (USCRN)": "datasets/OK_Stillwater_5_WNW.csv",
+  "Batesville, AR (USCRN)": "datasets/AR_Batesville_8_WNW.csv",
+  "Gadsden, AL (USCRN)": "datasets/AL_Gadsden_19_N.csv",
 };
 
 const state = {
@@ -39,7 +41,7 @@ async function computeProfiles() {
     try {
       const d = toDaily(await loadCsv(url, label));
       state.profiles[label] = { span: spanDays(d.timestamp), columns: d.columns };
-    } catch (e) { /* ignore a missing sample */ }
+    } catch (e) { /* ignore a missing dataset */ }
   }
 }
 
