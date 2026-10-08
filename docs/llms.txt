@@ -14,7 +14,7 @@ Source: https://github.com/soilwater/soil-moisture-indicators (the site lives in
 
 - `index.html` — the single-page dashboard. Pick a bundled station or upload a
   CSV, pick an indicator, adjust parameters, and see charts. Below the result
-  chart, a Method card shows each equation on its own line, a definition of
+  chart, a Calculation card shows each equation on its own line, a definition of
   every variable, the reference, and the Python code (collapsible, with copy
   and download buttons). Uses Plotly.js, KaTeX, and highlight.js (CDN).
 - `indicators/<id>.js` — one indicator per file (used by the dashboard).
@@ -49,8 +49,7 @@ export default {
   primary: "vwc",               // primary input series ("vwc" or "precip")
   requires: ["vwc"],            // columns needed
   minDays: "any",               // "any" | minimum record length in days
-  description: "…",             // what it computes
-  context: "…",                 // when/why to use it, for non-experts
+  description: "…",             // what it computes and its main interpretive caveat
   equations: ["S_t = …"],       // LaTeX, one equation per entry/line
   variables: [["S_t", "relative saturation on day t (%)"], …],
   reference: "Author (Year)…",  // "N/A" if none; " ; " separates several
@@ -73,7 +72,7 @@ Python functions follow the same order: primary series first (a daily
 - Antecedent Precipitation Index (`antecedent_precipitation_index`): daily rainfall total with exponential decay k (uses precip).
 - Drought Severity (`drought_severity`): run-theory deficit below the median, in m³/m³·day, for the most severe run.
 - Dry-Down Timescale τ (`dry_down_timescale`): median e-folding time of fitted exponential dry-downs; rain ≤ a daily tolerance keeps a dry-down going (uses precip).
-- Field Capacity (`field_capacity`): median VWC a drainage time after major wetting peaks (drained upper limit).
+- Field Capacity (`field_capacity`): median VWC a drainage time after major wetting peaks, excluding peaks with rain during the drainage window (drained upper limit; uses precip).
 - Flash Drought Onset (`flash_drought_onset`): SMPD method on seasonal pentad percentiles (40th → below 20th within 4 pentads).
 - Seasonal Mann-Kendall + Sen's slope (`seasonal_mann_kendall`): trend test on monthly means by calendar month, slope in m³/m³ per year.
 - Relative Saturation (`relative_saturation`): VWC as % of porosity (or of the record maximum).

@@ -17,9 +17,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Soil moisture relative to the available water capacity (field capacity minus wilting point), scaled so 0 is field capacity and −10 is the wilting point. Enter lab or field values for θFC and θWP, or leave 0 to estimate them as the record's 95th and 5th percentiles.",
-  context:
-    "An agricultural drought index framed around what plants can use: positive values mean water in excess of field capacity, negative values a growing deficit. Its published classes (mild, moderate, severe, extreme) make it easy to report agricultural drought.",
+    "Water content relative to the available water capacity, scaled so that 0 is field capacity and −10 the wilting point; positive values indicate water above field capacity. Drought classes: 0 to −2 mild, −2 to −5 moderate, −5 to −10 severe, below −10 extreme. Enter θFC and θWP, or leave 0 to estimate them as the record's 95th and 5th percentiles.",
   equations: [
     "\\mathrm{SWDI}_t = 10\\,\\frac{\\theta_t - \\theta_{FC}}{\\theta_{FC} - \\theta_{WP}}",
   ],

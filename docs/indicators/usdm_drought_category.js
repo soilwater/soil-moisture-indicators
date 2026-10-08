@@ -24,9 +24,7 @@ export default {
   minResolution: "daily",
   minDays: 730,
   description:
-    "Assigns each observation a D0–D4 drought category from its percentile relative to the same time of year (±w days across all years), using the percentile ranges of the U.S. Drought Monitor.",
-  context:
-    "Translates your own sensor into the familiar D0–D4 categories the public already knows from the U.S. Drought Monitor. The official USDM blends many indicators with expert judgment; this is the soil-moisture percentile component only. Needs several years so each time of year has a meaningful climatology.",
+    "D0–D4 drought category from the seasonal percentile (±w days across all years), using the U.S. Drought Monitor percentile ranges (D0 ≤ 30, D1 ≤ 20, D2 ≤ 10, D3 ≤ 5, D4 ≤ 2). This is the soil moisture component only; the official USDM blends multiple indicators with expert judgment.",
   equations: [
     "P_t = 100\\,\\frac{i_t - 0.44}{n_t + 0.12}",
     "\\text{D4}: \\; P_t \\le 2",

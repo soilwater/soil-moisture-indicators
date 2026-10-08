@@ -63,9 +63,7 @@ export default {
   minResolution: "any",
   minDays: 730,
   description:
-    "Weekly drought index: each week's mean moisture is compared with the long-term median, minimum, and maximum for that week of the year, and the resulting deficit is accumulated with a 0.5 memory term. Ranges from −4 (extremely dry) to +4 (extremely wet).",
-  context:
-    "A weekly drought index on a familiar −4 (severe drought) to +4 (very wet) scale, designed to compare current conditions against the same week in previous years. Works best with several years of data.",
+    "Weekly drought index: each week's mean water content is compared with the long-term median, minimum, and maximum for that week of the year, and the deficit is accumulated with a 0.5 persistence term. Values range from −4 (extremely dry) to +4 (extremely wet).",
   equations: [
     "\\bar{\\theta}_w = \\operatorname{mean}\\{\\theta_t : t \\in \\text{week } w\\}",
     "\\mathrm{SD}_w = 100\\,\\frac{\\bar{\\theta}_w - M_w}{M_w - L_w} \\quad \\text{if } \\bar{\\theta}_w \\le M_w",

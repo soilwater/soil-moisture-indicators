@@ -57,6 +57,11 @@ export function baseLayout(colors, { yTitle = "" } = {}) {
     },
     legend: { orientation: "h", y: -0.18, font: { size: 11 } },
     hovermode: "x unified",
+    hoverlabel: {
+      bgcolor: colors.bg,
+      bordercolor: colors.grid,
+      font: { color: colors.text, family: "Inter, system-ui, sans-serif", size: 12 },
+    },
     showlegend: false,
   };
 }
@@ -79,7 +84,15 @@ export function react(divId, traces, layoutPartial) {
       layout[key] = { ...axis, title: { ...t, font: titleFont } };
     }
   }
-  return window.Plotly.react(divId, traces, layout, CONFIG);
+  // Days are UTC midnights; pass them as date strings so Plotly doesn't shift
+  // them into the viewer's time zone (which shows the previous day at 19:00).
+  const asDay = (x) => (x instanceof Date ? x.toISOString().slice(0, 10) : x);
+  const fixed = traces.map((tr) => (Array.isArray(tr.x) && tr.x.some((x) => x instanceof Date)
+    ? { ...tr, x: tr.x.map(asDay) } : tr));
+  if (layout.xaxis.type === undefined && fixed.some((tr) => Array.isArray(tr.x) && typeof tr.x.find((x) => x != null) === "string")) {
+    layout.xaxis.hoverformat = layout.xaxis.hoverformat || "%b %d, %Y";
+  }
+  return window.Plotly.react(divId, fixed, layout, CONFIG);
 }
 
 /**

@@ -9,9 +9,7 @@ export default {
   minResolution: "daily",
   minDays: 730,
   description:
-    "Departure of soil moisture from its typical value for the same time of year: the median of all observations within ±w days of that calendar day, across all years.",
-  context:
-    "A plain-language status you can share without statistics: is the soil wetter or drier than usual for this time of year, and by how much (in m³/m³)? Good for dashboards and stakeholder updates. Needs several years so the seasonal norm is well defined.",
+    "Departure of water content from its seasonal norm, defined as the median of all observations within ±w days of the same calendar day across all years. Unlike percentile-based indices, the anomaly retains physical units (m³/m³).",
   equations: [
     "a_t = \\theta_t - \\tilde{\\theta}_{d(t)}",
     "\\tilde{\\theta}_{d} = \\operatorname{median}\\{\\theta_s : |d(s) - d| \\le w\\}",

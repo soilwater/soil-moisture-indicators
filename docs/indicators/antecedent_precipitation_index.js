@@ -9,9 +9,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Daily running total of rainfall in which each earlier day's contribution decays by the factor k (0 < k < 1), a simple proxy for how wet the soil should be from precipitation alone. The index starts at zero, so the first few weeks (roughly 3/(1 − k) days) are underestimated.",
-  context:
-    "Estimates how wet the soil should be from rainfall alone, before you trust any sensor. When measured moisture disagrees with recent rain it points to runoff, drainage, or a sensor problem.",
+    "Exponentially weighted sum of past daily precipitation, in which each earlier day's contribution decays by the factor k (0 < k < 1). It serves as a precipitation-based proxy for antecedent soil wetness. The recursion starts at zero, so roughly the first 3/(1 − k) days are underestimated.",
   equations: [
     "\\mathrm{API}_t = k\\,\\mathrm{API}_{t-1} + P_t",
     "\\mathrm{API}_0 = 0",

@@ -7,7 +7,7 @@ indices, plant-available water, soil-water dynamics, and long-term trends.
 
 The site is an interactive dashboard that runs entirely in the browser. Pick
 one of the bundled stations or upload your own CSV, choose an indicator, and adjust its
-parameters. Below each chart, a Method section lists the equations one per
+parameters. Below each chart, a Calculation section lists the equations one per
 line, defines every variable, cites the reference, and shows the Python
 implementation.
 

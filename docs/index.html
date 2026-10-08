@@ -28,32 +28,76 @@
 
     <main class="layout">
       <aside class="sidebar">
-        <section class="control">
-          <label for="dataset">Dataset</label>
-          <select id="dataset"></select>
+        <section class="panel panel-data" aria-labelledby="data-title">
+          <h2 class="panel-title" id="data-title"><span class="step">1</span>Data</h2>
+
+          <div class="segmented" role="tablist" aria-label="Data source">
+            <button type="button" role="tab" id="tab-example" aria-selected="true" aria-controls="source-example">Example station</button>
+            <button type="button" role="tab" id="tab-upload" aria-selected="false" aria-controls="source-upload">Your CSV</button>
+          </div>
+
+          <div id="source-example" role="tabpanel" aria-labelledby="tab-example" class="control">
+            <label for="dataset" class="sr-only">Example station</label>
+            <select id="dataset"></select>
+            <a id="download-dataset" class="link-btn download-link" href="#" download>Download this station (CSV)</a>
+          </div>
+
+          <div id="source-upload" role="tabpanel" aria-labelledby="tab-upload" class="control" hidden>
+            <label for="upload" class="file-drop">
+              <input type="file" id="upload" accept=".csv" />
+              <span class="file-drop-main">Choose a CSV file</span>
+              <span id="upload-name" class="file-drop-sub">No file selected</span>
+            </label>
+            <button type="button" id="open-format" class="link-btn">File format</button>
+          </div>
         </section>
 
-        <section class="control">
-          <label for="upload">Or upload your own CSV</label>
-          <input type="file" id="upload" accept=".csv" />
-          <p class="muted small">Needs a <code>timestamp</code> column plus
-            <code>vwc</code> (and <code>precip</code> for a few indicators).
-            Sub-daily data are aggregated to daily means (VWC) and totals (precipitation).</p>
-          <p class="muted small"><strong>Have profile storage (mm)?</strong> Divide it by the profile depth (mm) to get the depth-averaged <code>vwc</code> (m³/m³) before uploading.</p>
-        </section>
+        <section class="panel panel-indicator" aria-labelledby="indicator-title">
+          <h2 class="panel-title" id="indicator-title"><span class="step">2</span>Indicator</h2>
 
-        <section class="control">
-          <label for="indicator">Indicator</label>
-          <select id="indicator"></select>
-        </section>
+          <div class="control">
+            <label for="indicator" class="sr-only">Indicator</label>
+            <select id="indicator"></select>
+          </div>
 
-        <section class="control">
-          <h4>Parameters</h4>
-          <div id="params"></div>
-        </section>
+          <div class="control">
+            <h3 class="subhead">Parameters</h3>
+            <div id="params"></div>
+          </div>
 
-        <section id="info" class="info"></section>
+          <div id="info" class="info"></div>
+        </section>
       </aside>
+
+      <dialog id="format-dialog" class="modal" aria-labelledby="format-title">
+        <div class="modal-head">
+          <h2 id="format-title">File format</h2>
+          <button type="button" class="modal-close" id="close-format" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body">
+          <p>A comma-separated file with a header row:</p>
+          <table class="format-table">
+            <thead><tr><th>Column</th><th>Content</th><th>Needed</th></tr></thead>
+            <tbody>
+              <tr><td><code>timestamp</code></td><td>Date or date-time, e.g. <code>2015-06-01</code> or <code>2015-06-01 13:00</code></td><td>Always</td></tr>
+              <tr><td><code>vwc</code></td><td>Volumetric water content (m³/m³)</td><td>Always</td></tr>
+              <tr><td><code>precip</code></td><td>Precipitation (mm)</td><td>API, dry-down timescale, wetting events</td></tr>
+            </tbody>
+          </table>
+<pre class="format-sample">timestamp,vwc,precip
+2015-06-01,0.312,0.0
+2015-06-02,0.305,12.4
+2015-06-03,0.341,0.0</pre>
+          <ul>
+            <li><strong>Sub-daily data</strong> are aggregated on load: VWC to the daily mean, precipitation to the daily total.</li>
+            <li><strong>Missing values:</strong> leave the cell empty. Days without VWC stay missing; days without precipitation count as 0 mm.</li>
+            <li><strong>Profile storage (mm)?</strong> Divide it by the profile depth (mm) to get the depth-averaged <code>vwc</code> (m³/m³) before uploading.</li>
+            <li><strong>Seasonal indicators</strong> (anomaly, percentile, SSI, SMDI, drought category, flash drought, memory) need at least two years; the trend test needs three.</li>
+          </ul>
+          <p class="muted small">Your file is read in the browser and never leaves your computer.
+            Example: <a href="datasets/OK_Stillwater_5_WNW.csv" download>Stillwater station CSV</a>.</p>
+        </div>
+      </dialog>
 
       <section class="content">
         <div id="warning" class="notice" hidden></div>
@@ -71,7 +115,7 @@
             </div>
           </div>
           <div class="card">
-            <div class="card-head">Method</div>
+            <div class="card-head">Calculation</div>
             <div class="method">
               <div id="method-eqs" class="equations"></div>
               <div class="where">

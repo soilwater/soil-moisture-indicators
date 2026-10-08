@@ -9,8 +9,9 @@ References:
 Farahmand, A., & AghaKouchak, A. (2015). A generalized framework for deriving
 nonparametric standardized drought indicators. Adv. Water Resour., 76,
 140-145. https://doi.org/10.1016/j.advwatres.2014.11.012
-McKee, T. B., Doesken, N. J., & Kleist, J. (1993). 8th Conf. on Applied
-Climatology, AMS, 179-184.
+McKee, T. B., Doesken, N. J., & Kleist, J. (1993). The relationship of drought
+frequency and duration to time scales. Proc. 8th Conf. on Applied Climatology,
+Anaheim, CA, Amer. Meteor. Soc., 179-184.
 """
 import numpy as np
 import pandas as pd

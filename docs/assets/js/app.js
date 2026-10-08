@@ -23,6 +23,7 @@ const state = {
   indicator: null,
   params: {},
   profiles: {}, // {label: {span, columns:Set}}
+  upload: null, // last uploaded CSV, aggregated to daily
 };
 
 const el = {};
@@ -45,7 +46,15 @@ async function computeProfiles() {
   }
 }
 
+/** Point the download link at the station file the dashboard is using. */
+function updateDownload(label) {
+  const url = DATASETS[label];
+  el.downloadDataset.href = url;
+  el.downloadDataset.setAttribute("download", url.split("/").pop());
+}
+
 async function loadDataset(label) {
+  updateDownload(label);
   state.data = toDaily(await loadCsv(DATASETS[label], label));
   render();
 }
@@ -54,13 +63,35 @@ function loadUpload(file) {
   const reader = new FileReader();
   reader.onload = () => {
     try {
-      state.data = toDaily(parseCsv(reader.result, file.name));
+      state.upload = toDaily(parseCsv(reader.result, file.name));
+      state.data = state.upload;
+      el.uploadName.textContent = file.name;
       render();
     } catch (e) {
-      showError(`Could not read “${file.name}”: ${e.message}`);
+      state.upload = null;
+      el.uploadName.textContent = "No file selected";
+      showError(`Could not read “${escapeHtml(file.name)}”: ${e.message}`);
     }
   };
   reader.readAsText(file);
+}
+
+/** Example station or uploaded CSV: one source at a time. */
+function setSource(mode) {
+  const upload = mode === "upload";
+  el.tabExample.setAttribute("aria-selected", String(!upload));
+  el.tabUpload.setAttribute("aria-selected", String(upload));
+  el.sourceExample.hidden = upload;
+  el.sourceUpload.hidden = !upload;
+  if (!upload) loadDataset(el.dataset.value);
+  else if (state.upload) { state.data = state.upload; render(); }
+  else {
+    state.data = null;
+    el.warn.className = "notice info";
+    el.warn.innerHTML = "Choose a CSV file to see the indicators for your data.";
+    el.warn.hidden = false;
+    el.charts.hidden = true;
+  }
 }
 
 // --- indicator + params --------------------------------------------------
@@ -144,7 +175,6 @@ function renderInfo(ind) {
   el.info.innerHTML = `
     <h3>${ind.name}</h3>
     <p>${ind.description}</p>
-    ${ind.context ? `<p class="context">${ind.context}</p>` : ""}
     <dl>
       <dt>Required data</dt><dd>${cols} (daily)</dd>
       <dt>Minimum length</dt><dd>${ind.minDays === "any" ? "any" : `${ind.minDays} days`}</dd>
@@ -166,7 +196,8 @@ function renderMethod(ind) {
     .map(([sym, desc]) => `<dt>${katex(sym, false)}</dt><dd>${desc}</dd>`)
     .join("");
   el.methodRef.innerHTML = hasReference(ind)
-    ? `<strong>Reference:</strong> ${ind.reference.split(" ; ").map(linkifyReference).join("<br>")}`
+    ? `<div class="where-label">References</div>
+       <ul class="ref-list">${ind.reference.split(" ; ").map((r) => `<li>${linkifyReference(r.trim())}</li>`).join("")}</ul>`
     : "";
   el.methodRef.hidden = !hasReference(ind);
   loadPython(ind);
@@ -204,8 +235,9 @@ function compatibleDatasets(ind) {
 function render() {
   const ind = state.indicator;
   const data = state.data;
-  if (!ind || !data) return;
+  if (!ind) return;
   renderInfo(ind);
+  if (!data) return;
   el.source.textContent = data.subDaily ? `${data.source} · aggregated to daily` : data.source;
 
   const missing = ind.requires.filter((c) => !data.columns.has(c));
@@ -268,6 +300,12 @@ function defaultCaption(ind, result) {
 async function init() {
   el.dataset = $("dataset");
   el.upload = $("upload");
+  el.uploadName = $("upload-name");
+  el.downloadDataset = $("download-dataset");
+  el.tabExample = $("tab-example");
+  el.tabUpload = $("tab-upload");
+  el.sourceExample = $("source-example");
+  el.sourceUpload = $("source-upload");
   el.indicator = $("indicator");
   el.params = $("params");
   el.info = $("info");
@@ -297,10 +335,18 @@ async function init() {
     opt.textContent = label;
     el.dataset.appendChild(opt);
   }
+  updateDownload(el.dataset.value);
   el.dataset.addEventListener("change", (e) => loadDataset(e.target.value));
   el.upload.addEventListener("change", (e) => {
     if (e.target.files[0]) loadUpload(e.target.files[0]);
+    e.target.value = ""; // allow re-selecting the same file
   });
+  el.tabExample.addEventListener("click", () => setSource("example"));
+  el.tabUpload.addEventListener("click", () => setSource("upload"));
+  const dialog = $("format-dialog");
+  $("open-format").addEventListener("click", () => dialog.showModal());
+  $("close-format").addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
 
   for (const ind of indicatorsByName()) {
     const opt = document.createElement("option");

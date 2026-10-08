@@ -71,9 +71,7 @@ export default {
   minResolution: "daily",
   minDays: "any",
   description:
-    "E-folding time of soil drying after wetting. Each dry-down starts at a wetting peak and lasts while daily rain stays at or below a tolerance; it is fit with an exponential decay toward a residual moisture level. The value reported is the median τ across dry-downs.",
-  context:
-    "How fast soil dries after rain reflects its texture, drainage, and plant water use. Comparing drying timescales between sites or seasons reveals differences you can't see from the moisture level alone: a short τ means water leaves the soil quickly.",
+    "Median e-folding timescale τ of soil drying after wetting. Each dry-down begins at a wetting peak and continues while daily rain stays at or below a tolerance; water content is fit with an exponential decay toward a residual value. τ integrates drainage, evaporation, and transpiration, and increases with sensing depth.",
   equations: [
     "\\theta(t) = \\theta_r + (\\theta_0 - \\theta_r)\\,e^{-t/\\tau}",
     "k = 1/\\tau",
@@ -95,11 +93,11 @@ export default {
     ["\\hat{\\tau}", "reported value: median τ over all dry-downs j"],
   ],
   reference:
-    "McColl, K. A., et al. (2017). Global characterization of surface soil moisture drydowns. Geophys. Res. Lett., 44, 3682-3690. https://doi.org/10.1002/2017GL072819 ; Rondinelli, W. J., et al. (2015). J. Hydrometeorol., 16(2), 889-903. https://doi.org/10.1175/JHM-D-14-0137.1",
+    "McColl, K. A., et al. (2017). Global characterization of surface soil moisture drydowns. Geophys. Res. Lett., 44, 3682-3690. https://doi.org/10.1002/2017GL072819 ; Rondinelli, W. J., Hornbuckle, B. K., Patton, J. C., Cosh, M. H., Walker, V. A., Carr, B. D., & Logsdon, S. D. (2015). Different rates of soil drying after rainfall are observed by the SMOS satellite and the South Fork in situ soil moisture network. J. Hydrometeorol., 16(2), 889-903. https://doi.org/10.1175/JHM-D-14-0137.1",
   args: [
     { kind: "series", column: "timestamp" },
     { kind: "series", column: "precip" },
-    { kind: "param", name: "minDays", label: "Minimum dry-down length (days)", type: "int", default: 7, min: 3, max: 30, step: 1 },
+    { kind: "param", name: "minDays", label: "Minimum dry-down length (days)", type: "int", default: 15, min: 3, max: 30, step: 1 },
     { kind: "param", name: "maxRain", label: "Rain tolerated per day (mm)", type: "number", default: 2, min: 0, max: 10, step: 0.5 },
     { kind: "param", name: "riseTol", label: "VWC rise tolerated per day (m³/m³)", type: "number", default: 0.005, min: 0, max: 0.03, step: 0.001 },
   ],
@@ -119,13 +117,20 @@ export default {
   plot(result, ctx) {
     const { colors, params } = ctx;
     const { t, v, events } = dryDownEvents(ctx.times, ctx.primary, ctx.data.precip, params.minDays, params.maxRain, params.riseTol);
-    const hx = [];
-    const hy = [];
+    const finite = v.filter(Number.isFinite);
+    const lo = Math.min(...finite);
+    const hi = Math.max(...finite);
+    const pad = 0.05 * (hi - lo || 0.01);
+    const yRange = [lo - pad, hi + pad];
+    // Dry-down periods as full-height bands (closed polygons), so the VWC line
+    // and the fitted curve stay visible on top of them.
+    const bx = [];
+    const by = [];
     const fx = [];
     const fy = [];
     for (const e of events) {
-      for (let k = e.start; k <= e.end; k++) { hx.push(t[k]); hy.push(v[k]); }
-      hx.push(null); hy.push(null);
+      bx.push(t[e.start], t[e.start], t[e.end], t[e.end], t[e.start], null);
+      by.push(yRange[0], yRange[1], yRange[1], yRange[0], yRange[0], null);
       if (e.fit) {
         for (let k = e.start; k <= e.end; k++) {
           fx.push(t[k]);
@@ -134,27 +139,29 @@ export default {
         fx.push(null); fy.push(null);
       }
     }
-    const traces = [
-      {
-        x: t, y: v, type: "scattergl", mode: "lines",
-        line: { color: colors.muted, width: 1 }, name: "Daily VWC",
-        hovertemplate: "%{y:.3f}<extra></extra>",
-      },
-    ];
-    if (hx.length) {
+    const traces = [];
+    if (bx.length) {
       traces.push({
-        x: hx, y: hy, type: "scatter", mode: "lines", connectgaps: false,
-        line: { color: "#e0552b", width: 2.6 }, name: "Dry-downs",
-        hovertemplate: "%{y:.3f}<extra>dry-down</extra>",
-      });
-    }
-    if (fx.length) {
-      traces.push({
-        x: fx, y: fy, type: "scatter", mode: "lines", connectgaps: false,
-        line: { color: colors.text, width: 1.2, dash: "dot" }, name: "Exponential fit",
+        x: bx, y: by, type: "scatter", mode: "lines", fill: "toself", connectgaps: false,
+        fillcolor: "rgba(230,232,235,0.07)", line: { width: 0 }, name: "Dry-down periods",
         hoverinfo: "skip",
       });
     }
-    return { traces, layout: { showlegend: true, yaxis: { title: { text: "VWC (m³/m³)" } } } };
+    traces.push({
+      x: t, y: v, type: "scatter", mode: "lines",
+      line: { color: colors.text, width: 1.2 }, name: "Daily VWC",
+      hovertemplate: "VWC %{y:.3f}<extra></extra>",
+    });
+    if (fx.length) {
+      traces.push({
+        x: fx, y: fy, type: "scatter", mode: "lines", connectgaps: false,
+        line: { color: colors.accent2, width: 2.2 }, name: "Exponential fit",
+        hovertemplate: "fit %{y:.3f}<extra></extra>",
+      });
+    }
+    return {
+      traces,
+      layout: { showlegend: true, yaxis: { title: { text: "VWC (m³/m³)" }, range: yRange } },
+    };
   },
 };

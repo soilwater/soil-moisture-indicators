@@ -38,9 +38,7 @@ export default {
   minResolution: "any",
   minDays: 730,
   description:
-    "Lag (days) at which the autocorrelation of daily soil moisture anomalies first decays to 1/e. Anomalies are departures from a smoothed seasonal climatology (±15 days), so the seasonal cycle does not inflate persistence. Needs at least two years of data.",
-  context:
-    "Measures how long the soil 'remembers' a wet or dry anomaly. Longer memory means today's conditions carry more skill for predicting the coming weeks — useful context for forecasting and irrigation planning.",
+    "Lag at which the autocorrelation of daily soil moisture anomalies first decays to 1/e. Anomalies are departures from a smoothed seasonal climatology (±15 days), so the seasonal cycle does not inflate persistence. Longer memory implies greater predictability of soil moisture at subseasonal time scales.",
   equations: [
     "a_t = \\theta_t - \\bar{\\theta}_{d(t)}",
     "\\bar{\\theta}_{d} = \\operatorname{mean}\\{\\theta_s : |d(s) - d| \\le 15\\}",

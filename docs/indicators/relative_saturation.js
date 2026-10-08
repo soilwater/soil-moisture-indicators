@@ -7,9 +7,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Soil moisture as a percentage of the saturated water content. With a porosity value this is the degree of saturation θ/φ; left at 0, the maximum VWC observed in the record stands in for saturation.",
-  context:
-    "Expresses moisture as 'how full the soil pores are' from 0 to 100%, an intuitive framing for non-technical audiences. Enter porosity (e.g. from bulk density) for a true degree of saturation; the record-maximum fallback only approximates it if the record includes saturated conditions.",
+    "Water content as a percentage of the saturated water content (degree of saturation, θ/φ). Enter porosity, e.g. from bulk density; left at 0, the record maximum is used, which approximates saturation only if the record includes saturated conditions.",
   equations: [
     "S_t = 100\\,\\frac{\\theta_t}{\\phi}",
     "\\phi = \\max_t \\theta_t \\quad \\text{if porosity is not provided}",

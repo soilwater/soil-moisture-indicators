@@ -9,9 +9,7 @@ export default {
   minResolution: "daily",
   minDays: 730,
   description:
-    "Percentile (0–100) of each observation relative to all observations from the same time of year (±w days, across all years).",
-  context:
-    "Ranks today against the site's own history for this time of year, in the same 'driest 10%' language that drought monitors use. Because it is seasonal, a normal late-summer low is not mistaken for drought. Needs several years of data.",
+    "Percentile (0–100) of each observation relative to all observations from the same time of year (±w days across all years; Gringorten plotting position). Seasonal ranking prevents the climatological dry season from being classified as drought.",
   equations: [
     "P_t = 100\\,\\frac{i_t - 0.44}{n_t + 0.12}",
     "i_t = \\#\\{\\theta_s \\le \\theta_t : |d(s) - d(t)| \\le w\\}",

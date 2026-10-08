@@ -15,9 +15,7 @@ export default {
   minResolution: "daily",
   minDays: 730,
   description:
-    "Nonparametric standardized index: each observation's empirical probability relative to the same time of year (Gringorten plotting position, ±w days across all years) is transformed to a standard-normal value.",
-  context:
-    "Puts moisture on the same scale as the SPI rainfall index, so values are comparable across sites and seasons: 0 is normal, −1 moderately dry, −1.5 severely dry, −2 extremely dry. It is the percentile (SMP) expressed in standard deviations. Needs several years of data.",
+    "Nonparametric standardized index: the empirical probability of each observation relative to the same time of year (Gringorten plotting position, ±w days across all years) is transformed to a standard-normal value. It expresses the percentile on the SPI scale (≤ −1 moderate, ≤ −1.5 severe, ≤ −2 extreme drought), allowing comparison with other standardized indices.",
   equations: [
     "p_t = \\frac{i_t - 0.44}{n_t + 0.12}",
     "\\mathrm{SSI}_t = \\Phi^{-1}(p_t)",
@@ -31,7 +29,7 @@ export default {
     ["w", "half-width of the seasonal window (days)"],
   ],
   reference:
-    "Farahmand, A., & AghaKouchak, A. (2015). A generalized framework for deriving nonparametric standardized drought indicators. Adv. Water Resour., 76, 140-145. https://doi.org/10.1016/j.advwatres.2014.11.012 ; classes after McKee, T. B., Doesken, N. J., & Kleist, J. (1993), 8th Conf. on Applied Climatology, AMS, 179-184.",
+    "Farahmand, A., & AghaKouchak, A. (2015). A generalized framework for deriving nonparametric standardized drought indicators. Adv. Water Resour., 76, 140-145. https://doi.org/10.1016/j.advwatres.2014.11.012 ; McKee, T. B., Doesken, N. J., & Kleist, J. (1993). The relationship of drought frequency and duration to time scales. Proc. 8th Conf. on Applied Climatology, Anaheim, CA, Amer. Meteor. Soc., 179-184.",
   args: [
     { kind: "series", column: "timestamp" },
     { kind: "param", name: "windowDays", label: "Seasonal window w (± days)", type: "int", default: 15, min: 3, max: 45, step: 1 },

@@ -7,9 +7,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Recursive exponential filter that smooths near-surface soil moisture into a proxy for deeper/root-zone moisture, controlled by a characteristic time length T (days).",
-  context:
-    "Uses a shallow surface sensor to estimate deeper root-zone moisture, which is what plants actually use but is expensive to measure directly. The time constant T sets how deep and slow a layer you're mimicking.",
+    "Recursive exponential filter that propagates near-surface soil moisture to a root-zone proxy, controlled by a characteristic time length T (days). Larger T represents a deeper, more slowly responding layer; when the input is already a profile average, the filter mainly adds smoothing.",
   equations: [
     "\\mathrm{SWI}_t = \\mathrm{SWI}_{t-1} + K_t\\,(\\theta_t - \\mathrm{SWI}_{t-1})",
     "K_t = \\frac{K_{t-1}}{K_{t-1} + e^{-\\Delta t/T}}",
@@ -24,7 +22,7 @@ export default {
     ["T", "characteristic time length (days)"],
   ],
   reference:
-    "Wagner, W., Lemoine, G., & Rott, H. (1999). A method for estimating soil moisture from ERS scatterometer and soil data. Remote Sens. Environ., 70(2), 191-207. https://doi.org/10.1016/S0034-4257(99)00036-X ; recursive form: Albergel, C., et al. (2008). From near-surface to root-zone soil moisture using an exponential filter. Hydrol. Earth Syst. Sci., 12, 1323-1337. https://doi.org/10.5194/hess-12-1323-2008",
+    "Wagner, W., Lemoine, G., & Rott, H. (1999). A method for estimating soil moisture from ERS scatterometer and soil data. Remote Sens. Environ., 70(2), 191-207. https://doi.org/10.1016/S0034-4257(99)00036-X ; Albergel, C., et al. (2008). From near-surface to root-zone soil moisture using an exponential filter. Hydrol. Earth Syst. Sci., 12, 1323-1337. https://doi.org/10.5194/hess-12-1323-2008",
   args: [
     { kind: "series", column: "timestamp" },
     { kind: "param", name: "tDays", label: "Characteristic time T (days)", type: "number", default: 10, min: 1, max: 60, step: 1 },

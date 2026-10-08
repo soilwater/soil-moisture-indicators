@@ -9,9 +9,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Flags days on which daily-mean soil moisture has risen by at least Δθmin over the last w days while at least Pmin of rain fell in the same window. Consecutive flagged days are counted as one wetting event.",
-  context:
-    "Confirms the soil actually responds to rain, and by how much. Weak or missing responses can reveal canopy interception, runoff, or a sensor placed too deep to feel the wetting front.",
+    "Days on which daily-mean water content rose by at least Δθmin over the last w days while at least Pmin of rain fell in the same window; consecutive flagged days count as one event. Weak or absent responses to large rainfall can indicate interception, runoff, or a sensor below the wetting front.",
   equations: [
     "\\Delta\\theta_t = \\theta_t - \\theta_{t-w}",
     "P^{(w)}_t = \\sum_{s=t-w+1}^{t} P_s",

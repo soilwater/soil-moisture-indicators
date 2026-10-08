@@ -24,9 +24,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Accumulated moisture deficit below a fixed threshold (the record median) during the most severe uninterrupted dry run. Severity integrates depth and duration, so it has units of m³/m³ × days.",
-  context:
-    "Summarizes a whole record into a single 'worst dry spell' number that blends how deep and how long it was. Useful for ranking seasons or sites when you need one comparable figure. Because the threshold is fixed, a normal dry season also counts as deficit.",
+    "Cumulative soil moisture deficit below a fixed threshold (the record median) over the most severe uninterrupted run, following run theory. Severity integrates deficit magnitude and duration (m³/m³·day). Because the threshold is not seasonal, the climatological dry season also contributes to the deficit.",
   equations: [
     "\\delta_t = \\max(\\tilde{\\theta} - \\theta_t,\\; 0)",
     "S = \\max_{R} \\sum_{t \\in R} \\delta_t\\,\\Delta t",

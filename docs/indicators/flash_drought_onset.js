@@ -39,9 +39,7 @@ export default {
   minResolution: "daily",
   minDays: 730,
   description:
-    "Soil Moisture Percentile Drop method: flags a pentad (5-day mean) whose seasonal percentile falls below the lower threshold after having been at or above the upper threshold within the preceding m pentads. Percentiles are relative to the same time of year across all years.",
-  context:
-    "Flash droughts intensify in weeks and are easily missed by slow monthly indices. This flags rapid moisture collapses so managers can react while there is still time. Needs several years of data so each time of year has a meaningful percentile distribution. In cold climates, frozen soil lowers the measured (liquid) water content and can produce spurious winter onsets; interpret those with care.",
+    "Soil Moisture Percentile Drop (SMPD) method: flags a pentad (5-day mean) whose seasonal percentile falls below the lower threshold after being at or above the upper threshold within the preceding m pentads, capturing rapid intensification that monthly indices miss. Frozen soil lowers the measured liquid water content and can produce spurious winter onsets.",
   equations: [
     "\\bar{\\theta}_j = \\operatorname{mean}\\{\\theta_t : t \\in \\text{pentad } j\\}",
     "P_j = 100\\,\\dfrac{i_j - 0.44}{n_j + 0.12}",

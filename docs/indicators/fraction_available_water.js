@@ -9,9 +9,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Soil moisture scaled between the wilting point (0) and field capacity (1), also called plant-available water fraction or relative extractable water (REW). Values above 1 indicate drainage after wetting. Enter lab or field values for θFC and θWP, or leave 0 to estimate them as the record's 95th and 5th percentiles.",
-  context:
-    "Rescales a sensor reading into 'how much of the water plants can use is left'. It is the most direct link between soil moisture and crop water stress and is easy to explain to growers. Crops typically begin to experience stress once FAW drops below 1 − p (about 0.5 for many crops, per FAO-56).",
+    "Water content scaled between the wilting point (0) and field capacity (1), also termed relative extractable water (REW). Values above 1 indicate drainage after wetting. Following FAO-56, crop water stress begins when FAW falls below 1 − p (p ≈ 0.5 for many crops). Enter θFC and θWP, or leave 0 to estimate them as the record's 95th and 5th percentiles.",
   equations: [
     "\\mathrm{FAW}_t = \\frac{\\theta_t - \\theta_{WP}}{\\theta_{FC} - \\theta_{WP}}",
     "\\text{water stress when } \\mathrm{FAW}_t < 1 - p",

@@ -16,9 +16,7 @@ export default {
   minResolution: "any",
   minDays: "any",
   description:
-    "Field-estimated lower limit of plant-available water: a robust minimum of the record (mean of observations at or below the p-th percentile).",
-  context:
-    "Estimates the moisture below which plants can no longer extract water; paired with field capacity it bounds the plant-available range. It approximates the wilting point only if the record includes a severe dry-down under active roots; in wet climates or short records it will overestimate it.",
+    "Field estimate of the lower limit of plant-available water: a robust minimum of the record (mean of observations at or below the p-th percentile). It approaches the lower limit only if the record includes severe drying under active roots; in humid climates or short records it overestimates it.",
   equations: [
     "\\theta_{WP} = \\operatorname{mean}\\{\\theta_t : \\theta_t \\le P_p(\\theta)\\}",
   ],

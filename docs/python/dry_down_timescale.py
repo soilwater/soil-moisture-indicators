@@ -13,7 +13,10 @@ The reported value is the median tau across dry-downs; k = 1 / tau.
 References:
 McColl, K. A., et al. (2017). Global characterization of surface soil moisture
 drydowns. Geophys. Res. Lett., 44, 3682-3690. https://doi.org/10.1002/2017GL072819
-Rondinelli, W. J., et al. (2015). J. Hydrometeorol., 16(2), 889-903.
+Rondinelli, W. J., Hornbuckle, B. K., Patton, J. C., Cosh, M. H., Walker, V. A.,
+Carr, B. D., & Logsdon, S. D. (2015). Different rates of soil drying after
+rainfall are observed by the SMOS satellite and the South Fork in situ soil
+moisture network. J. Hydrometeorol., 16(2), 889-903.
 https://doi.org/10.1175/JHM-D-14-0137.1
 """
 import numpy as np
@@ -47,7 +50,7 @@ def _fit_dry_down(days: np.ndarray, vals: np.ndarray, steps: int = 60):
     return -1.0 / best[2], best[1]
 
 
-def dry_down_timescale(vwc: pd.Series, precip: pd.Series, min_days: int = 7,
+def dry_down_timescale(vwc: pd.Series, precip: pd.Series, min_days: int = 15,
                        max_rain: float = 2.0, rise_tol: float = 0.005) -> dict:
     """Median e-folding timescale of soil dry-downs.
 

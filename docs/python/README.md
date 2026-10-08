@@ -32,6 +32,19 @@ vwc = df["vwc"].resample("D").mean()
 precip = df["precip"].resample("D").sum()
 ```
 
+To reproduce a dashboard result, use the same station file. Download it from
+the Data panel ("Download this station (CSV)") or read it straight from the
+site:
+
+```python
+url = "https://soilwater.github.io/soil-moisture-indicators/datasets/OK_Stillwater_5_WNW.csv"
+df = pd.read_csv(url, parse_dates=["timestamp"]).set_index("timestamp")
+```
+
+The bundled files are `OK_Stillwater_5_WNW.csv`, `AR_Batesville_8_WNW.csv`
+and `AL_Gadsden_19_N.csv`. With default parameters, the functions return the
+values shown on the dashboard.
+
 ## Example
 
 ```python
@@ -39,7 +52,7 @@ from soil_moisture_percentile import soil_moisture_percentile
 from dry_down_timescale import dry_down_timescale
 
 smp = soil_moisture_percentile(vwc, window=15)          # pd.Series, 0–100
-result = dry_down_timescale(vwc, precip, min_days=7)   # dict
+result = dry_down_timescale(vwc, precip, min_days=15)  # dict
 print(result["tau_median"], "days")
 ```
 

@@ -9,9 +9,7 @@ export default {
   minResolution: "any",
   minDays: 1095,
   description:
-    "Nonparametric test for a monotonic long-term trend, applied to monthly means with each calendar month compared only against the same month in other years (Seasonal Kendall). Sen's slope gives the trend magnitude in m³/m³ per year.",
-  context:
-    "Answers 'is this site getting drier or wetter over the years?' with a result you can defend statistically. Testing month-against-same-month removes the seasonal cycle, and using monthly means avoids the day-to-day persistence that makes a naive daily test overstate significance. Needs at least three years; short records will rarely show significant trends.",
+    "Seasonal Kendall test for a monotonic trend, applied to monthly means with each calendar month compared only with the same month in other years; Sen's slope gives the magnitude in m³/m³ per year. Monthly aggregation and seasonal blocking avoid the serial correlation that invalidates a Mann-Kendall test on daily values.",
   equations: [
     "S = \\sum_{m=1}^{12} \\sum_{i<j} \\operatorname{sgn}\\big(\\bar{\\theta}_{m,j} - \\bar{\\theta}_{m,i}\\big)",
     "\\operatorname{Var}(S) = \\sum_{m=1}^{12} \\frac{n_m(n_m-1)(2n_m+5) - \\sum_g t_g(t_g-1)(2t_g+5)}{18}",
@@ -31,7 +29,7 @@ export default {
     ["\\beta", "Sen's slope: median of all within-month pairwise slopes (m³/m³ per year)"],
   ],
   reference:
-    "Hirsch, R. M., Slack, J. R., & Smith, R. A. (1982). Techniques of trend analysis for monthly water quality data. Water Resour. Res., 18(1), 107-121. https://doi.org/10.1029/WR018i001p00107 ; Sen, P. K. (1968). J. Amer. Statist. Assoc., 63(324), 1379-1389. https://doi.org/10.1080/01621459.1968.10480934",
+    "Hirsch, R. M., Slack, J. R., & Smith, R. A. (1982). Techniques of trend analysis for monthly water quality data. Water Resour. Res., 18(1), 107-121. https://doi.org/10.1029/WR018i001p00107 ; Sen, P. K. (1968). Estimates of the regression coefficient based on Kendall's tau. J. Amer. Statist. Assoc., 63(324), 1379-1389. https://doi.org/10.1080/01621459.1968.10480934",
   args: [{ kind: "series", column: "timestamp" }],
   caption(result, ctx) {
     const r = seasonalKendall(ctx.times, ctx.primary);
