@@ -30,7 +30,7 @@ const CATEGORY_PALETTE = [
   "#dc2626", "#ea580c", "#d97706", "#7c3aed", "#0891b2", "#16a34a", "#db2777",
 ];
 const BASELINE_LABELS = new Set([
-  "OK", "No Onset", "Unfrozen", "No drought", "No Drought",
+  "OK", "No", "No Onset", "Unfrozen", "No drought", "No Drought",
 ]);
 
 /** Base themed layout; caller overrides pieces via a partial layout. */
