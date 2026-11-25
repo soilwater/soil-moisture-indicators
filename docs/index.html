@@ -7,29 +7,32 @@
     <meta name="description" content="An interactive, open-source library of daily soil moisture indicators (drought indices, plant-available water, dynamics, and trends) with equations and Python code, running entirely in your browser." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
     <link rel="stylesheet" href="assets/css/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">
-        <span class="logo">◍</span>
-        <span>Soil Moisture Indicators</span>
+      <div class="topbar-inner">
+        <div class="brand">
+          <svg class="logo" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="20" height="20" rx="5" stroke="#1a1d21" stroke-width="1.5" />
+            <path d="M5 9h12M5 13h12M5 17h7" stroke="#1e5a8a" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+          <span>Soil Moisture Indicators</span>
+        </div>
+        <span class="tagline">Daily soil moisture indicators · runs entirely in your browser</span>
       </div>
-      <nav class="nav">
-        <span class="tagline">Runs entirely in your browser · no server, no install</span>
-      </nav>
     </header>
 
     <main class="layout">
       <aside class="sidebar">
         <section class="panel panel-data" aria-labelledby="data-title">
-          <h2 class="panel-title" id="data-title"><span class="step">1</span>Data</h2>
+          <h2 class="panel-title" id="data-title">Data</h2>
 
           <div class="segmented" role="tablist" aria-label="Data source">
             <button type="button" role="tab" id="tab-example" aria-selected="true" aria-controls="source-example">Example station</button>
@@ -53,7 +56,7 @@
         </section>
 
         <section class="panel panel-indicator" aria-labelledby="indicator-title">
-          <h2 class="panel-title" id="indicator-title"><span class="step">2</span>Indicator</h2>
+          <h2 class="panel-title" id="indicator-title">Indicator</h2>
 
           <div class="control">
             <label for="indicator" class="sr-only">Indicator</label>
@@ -64,8 +67,6 @@
             <h3 class="subhead">Parameters</h3>
             <div id="params"></div>
           </div>
-
-          <div id="info" class="info"></div>
         </section>
       </aside>
 
@@ -100,6 +101,8 @@
       </dialog>
 
       <section class="content">
+        <div id="info" class="page-head"></div>
+
         <div id="warning" class="notice" hidden></div>
 
         <div id="charts" class="charts" hidden>
@@ -138,7 +141,10 @@
     </main>
 
     <footer class="footer">
-      <span>Open-source daily soil moisture indicators · equations and Python code under each chart.</span>
+      <div class="footer-inner">
+        <span>Open-source daily soil moisture indicators. Equations and Python code accompany each result.</span>
+        <span>Data are processed locally and never leave your computer.</span>
+      </div>
     </footer>
 
     <script type="module" src="assets/js/app.js"></script>

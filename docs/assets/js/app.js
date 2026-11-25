@@ -170,15 +170,19 @@ function katex(latex, display) {
   return `<code>${escapeHtml(latex)}</code>`;
 }
 
+const TYPE_LABELS = { timeseries: "Time series", scalar: "Scalar", categorical: "Categorical" };
+
 function renderInfo(ind) {
   const cols = ind.requires.map((c) => COLUMN_LABELS[c] || c).join(", ");
+  const kind = TYPE_LABELS[ind.type] || ind.type;
+  const minLen = ind.minDays === "any" ? "any length" : `at least ${ind.minDays} days`;
   el.info.innerHTML = `
-    <h3>${ind.name}</h3>
-    <p>${ind.description}</p>
-    <dl>
-      <dt>Required data</dt><dd>${cols} (daily)</dd>
-      <dt>Minimum length</dt><dd>${ind.minDays === "any" ? "any" : `${ind.minDays} days`}</dd>
-    </dl>`;
+    <div class="page-meta">
+      <span class="tag">${kind}</span>
+      <span>Requires ${cols}, daily · ${minLen}</span>
+    </div>
+    <h1>${ind.name}</h1>
+    <p>${ind.description}</p>`;
 }
 
 function hasReference(ind) {

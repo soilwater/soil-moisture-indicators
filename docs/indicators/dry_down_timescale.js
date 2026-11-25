@@ -143,7 +143,7 @@ export default {
     if (bx.length) {
       traces.push({
         x: bx, y: by, type: "scatter", mode: "lines", fill: "toself", connectgaps: false,
-        fillcolor: "rgba(230,232,235,0.07)", line: { width: 0 }, name: "Dry-down periods",
+        fillcolor: "rgba(26,29,33,0.06)", line: { width: 0 }, name: "Dry-down periods",
         hoverinfo: "skip",
       });
     }

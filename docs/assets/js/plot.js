@@ -45,6 +45,7 @@ export function baseLayout(colors, { yTitle = "" } = {}) {
       zerolinecolor: colors.grid,
       linecolor: colors.grid,
       tickcolor: colors.grid,
+      tickfont: { color: colors.muted, size: 11 },
       automargin: true,
     },
     yaxis: {
@@ -53,6 +54,7 @@ export function baseLayout(colors, { yTitle = "" } = {}) {
       zerolinecolor: colors.grid,
       linecolor: colors.grid,
       tickcolor: colors.grid,
+      tickfont: { color: colors.muted, size: 11 },
       automargin: true,
     },
     legend: { orientation: "h", y: -0.18, font: { size: 11 } },
@@ -153,7 +155,7 @@ export function renderInput(divId, data) {
     traces.push({
       x: data.timestamp, y: data.precip, type: "bar",
       yaxis: hasVwc ? "y2" : "y",
-      marker: { color: "rgba(56,189,248,0.7)" }, name: "Precipitation",
+      marker: { color: "rgba(92,150,198,0.75)" }, name: "Precipitation",
       hovertemplate: "%{y:.1f} mm<extra>Precip</extra>",
     });
     const precipAxis = {
